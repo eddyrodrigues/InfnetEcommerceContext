@@ -20,7 +20,6 @@ namespace InfnetEcommerceContext.Product.API.Repository
         public ProductRepository(ProductContext context)
         {
             _context = context;
-            _context.Database.EnsureCreated();
         }
 
         public List<ProductEntity> GetAll()
