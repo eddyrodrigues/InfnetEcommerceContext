@@ -8,9 +8,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/InfnetEcommerceContext.Product.API.csproj", "InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/"]
-RUN dotnet restore "./InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/./InfnetEcommerceContext.Product.API.csproj"
-COPY . .
+COPY ["InfnetEcommerceContext.Product.API.csproj", "InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/"]
+RUN dotnet restore "InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/InfnetEcommerceContext.Product.API.csproj"
+COPY [".", "InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/"]
 WORKDIR "/src/InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API"
 RUN dotnet build "./InfnetEcommerceContext.Product.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
