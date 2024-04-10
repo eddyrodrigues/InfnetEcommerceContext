@@ -1,0 +1,55 @@
+def TAG_VERSION = ''
+pipeline {
+    agent any
+    environment {
+        dockerhub = credentials('dockerhub')
+    }
+    
+
+    stages {
+        
+        stage('Git Checkout') {
+            steps {
+                git(
+                    url: 'https://github.com/eddyrodrigues/InfnetEcommerceContext.git',
+                    branch: 'main')
+                script{
+                    TAG_VERSION = powershell(script: 'git rev-parse --short HEAD', returnStdout:true).trim()
+                }
+            }
+        }
+        stage('Build') {
+             steps{
+                //  bat 'dotnet clean'
+                bat('dotnet build ./InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/InfnetEcommerceContext.Product.API.csproj')
+                //  '''
+
+             }
+         }
+         stage('Create Docker Image') {
+             
+            steps{
+                
+                bat('docker login -u %dockerhub_USR% -p %dockerhub_PSW%')
+                echo "IMAGE VERSION: ${TAG_VERSION}"
+                powershell("docker image build ./InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/ -t eddyrodrigues/infnetecommercecontextproductapi:${TAG_VERSION}")
+            }   
+         }
+         
+         stage('Upload docker image') {
+             steps {
+                powershell("docker image push eddyrodrigues/infnetecommercecontextproductapi:${TAG_VERSION}")
+                powershell("docker image tag eddyrodrigues/infnetecommercecontextproductapi:${TAG_VERSION} eddyrodrigues/infnetecommercecontextproductapi:latest")
+                powershell("docker image push eddyrodrigues/infnetecommercecontextproductapi:latest")
+             }
+         }
+         
+         stage('Remove Docker Image') {
+             
+            steps{
+                bat("docker image rm eddyrodrigues/infnetecommercecontextproductapi:${TAG_VERSION}")
+                bat("docker image rm eddyrodrigues/infnetecommercecontextproductapi:latest")
+            }   
+         }
+    }
+}
