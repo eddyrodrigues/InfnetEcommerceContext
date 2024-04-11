@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: prometheusconfig-pvc
+  namespace: default
+spec:
+  storageClassName: ""
+  selector:
+    matchLabels:
+      name: prometheusconfig-pv
+  resources:
+    requests:
+      storage: 9Mi
+  accessModes:
+    - ReadOnlyMany

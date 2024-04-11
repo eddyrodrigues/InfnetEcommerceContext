@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productapi-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: productapi
+  template:
+    metadata:
+      name: productapi-pod
+      labels:
+        app: productapi
+    spec:
+      containers:
+        - name: productapi
+          # image: eddyrodrigues/infnetecommercecontextproductapi:0.0.1
+          image: eddyrodrigues/infnetecommercecontextproductapi:0.0.2
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /products
+              port: 80
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /products
+              port: 80
+            initialDelaySeconds: 10

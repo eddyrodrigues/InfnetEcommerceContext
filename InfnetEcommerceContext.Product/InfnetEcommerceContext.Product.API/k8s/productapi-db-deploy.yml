@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productapi-db-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: productapi-db
+  template:
+    metadata:
+      name: productapi-db-pod
+      labels:
+        app: productapi-db
+    spec:
+      containers:
+        - name: productapi-sqlserver
+          image: eddyrodrigues/infnetecommercecontextproductsqlserver:0.0.1
