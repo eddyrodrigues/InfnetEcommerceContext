@@ -62,7 +62,8 @@ namespace InfnetEcommerceContext.Cart.API.Services
                     {
                         Description = "-",
                         Image = "-",
-                        Name = "-"
+                        Name = "-",
+                        Price = 0.0M
                     });
                 }
             }
