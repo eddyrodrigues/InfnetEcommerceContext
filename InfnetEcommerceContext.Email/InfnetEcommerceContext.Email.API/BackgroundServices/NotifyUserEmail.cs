@@ -17,7 +17,7 @@ namespace InfnetEcommerceContext.Notification.API.BackgroundServices
                     scope.ServiceProvider
                         .GetRequiredService<SendEmailService>();
 
-                scopedProcessingService.SendEmail(notifyUser.EmailTo, notifyUser.Subject, notifyUser.Body, null);
+                //scopedProcessingService.SendEmail(notifyUser.EmailTo, notifyUser.Subject, notifyUser.Body, null);
             }
         }
 

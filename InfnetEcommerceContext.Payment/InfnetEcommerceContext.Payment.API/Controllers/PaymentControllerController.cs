@@ -1,21 +1,26 @@
 using InfnetEcommerceContext.Notification.API.services;
 using InfnetEcommerceContext.Payment.API.Models;
 using InfnetEcommerceContext.Payment.API.Models.DTOs;
+using MassTransit;
+using MessagingContracts;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InfnetEcommerceContext.Notification.API.Controllers
 {
+    
+
     [ApiController]
     [Route("[controller]")]
     public class PaymentControllerController : ControllerBase
     {
 
-        private readonly ILogger<PaymentControllerController> _logger;
+        private readonly IBus bus;
         private readonly PaymentService _paymentService;
 
-        public PaymentControllerController(ILogger<PaymentControllerController> logger, PaymentService paymentService)
+        public PaymentControllerController(IBus bus, PaymentService paymentService)
         {
-            _logger = logger;
+            
+            this.bus = bus;
             this._paymentService = paymentService;
         }
 

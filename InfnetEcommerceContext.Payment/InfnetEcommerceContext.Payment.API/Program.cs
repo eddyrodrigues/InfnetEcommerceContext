@@ -1,8 +1,9 @@
 using InfnetEcommerceContext.Notification.API.services;
 using InfnetEcommerceContext.Payment.API.Repository;
 using InfnetEcommerceContext.Payment.API.Repository.DataContext;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
-using Steeltoe.Discovery.Client;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +18,27 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<PaymentRepository>();
 builder.Services.AddScoped<PaymentService>();
 
-builder.Services.AddDiscoveryClient();
+builder.Services.AddMassTransit(x =>
+{
+    x.SetKebabCaseEndpointNameFormatter();
+
+    var entryAssembly = Assembly.GetEntryAssembly();
+
+    x.AddConsumers(entryAssembly);
+    x.AddActivities(entryAssembly);
+    x.UsingRabbitMq((cxt, cfg) =>
+    {
+        cfg.Host("localhost", h =>
+        {
+            h.Username(builder.Configuration.GetValue<string>("rabbitmq.login"));
+            h.Password(builder.Configuration.GetValue<string>("rabbitmq.password"));
+        });
+
+        cfg.ConfigureEndpoints(cxt);
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

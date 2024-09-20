@@ -1,5 +1,7 @@
 using InfnetEcommerceContext.Notification.API.BackgroundServices;
 using InfnetEcommerceContext.Notification.API.services;
+using MassTransit;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,27 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<NotifyUserEmailListener>();
 builder.Services.AddScoped<SendEmailService>();
+builder.Services.AddMassTransit(x =>
+{
+    x.SetKebabCaseEndpointNameFormatter();
+
+    var entryAssembly = Assembly.GetEntryAssembly();
+    
+    x.AddConsumers(entryAssembly);
+    x.AddActivities(entryAssembly);
+    x.UsingRabbitMq((cxt, cfg) =>
+    {
+        
+        cfg.Host("localhost", h =>
+        {
+            h.Username(builder.Configuration.GetValue<string>("rabbitmq.login"));
+            h.Password(builder.Configuration.GetValue<string>("rabbitmq.password"));
+        });
+
+        cfg.ConfigureEndpoints(cxt);
+    });
+    
+});
 
 var app = builder.Build();
 
@@ -24,6 +47,7 @@ if (app.Environment.IsDevelopment())
 //app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
 
 app.MapControllers();
 

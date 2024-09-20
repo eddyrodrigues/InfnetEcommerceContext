@@ -1,6 +1,8 @@
 ﻿using InfnetEcommerceContext.Payment.API.Models;
 using InfnetEcommerceContext.Payment.API.Models.DTOs;
 using InfnetEcommerceContext.Payment.API.Repository;
+using MassTransit;
+using MessagingContracts;
 
 namespace InfnetEcommerceContext.Notification.API.services
 {
@@ -8,10 +10,13 @@ namespace InfnetEcommerceContext.Notification.API.services
     {
         private readonly PaymentRepository _paymentRepository;
 
-        public PaymentService(PaymentRepository paymentRepository)
+        public PaymentService(PaymentRepository paymentRepository, IBus bus)
         {
             _paymentRepository = paymentRepository;
+            Bus = bus;
         }
+
+        public IBus Bus { get; }
 
         public PaymentEntity CreateNewPayment(NewPaymentDTO newPaymentDTO)
         {
@@ -24,6 +29,11 @@ namespace InfnetEcommerceContext.Notification.API.services
 
             _paymentRepository.Add(newlyGeneratedPayment);
 
+            Bus.Publish(new PaymentCreated()
+            {
+                UserId = newPaymentDTO.UserId,
+
+            });
             return newlyGeneratedPayment;
         }
 
