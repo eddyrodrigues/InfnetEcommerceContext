@@ -11,13 +11,13 @@ namespace InfnetEcommerceContext.Notification.API.Controllers
 
     [ApiController]
     [Route("[controller]")]
-    public class PaymentControllerController : ControllerBase
+    public class PaymentController : ControllerBase
     {
 
         private readonly IBus bus;
         private readonly PaymentService _paymentService;
 
-        public PaymentControllerController(IBus bus, PaymentService paymentService)
+        public PaymentController(IBus bus, PaymentService paymentService)
         {
             
             this.bus = bus;

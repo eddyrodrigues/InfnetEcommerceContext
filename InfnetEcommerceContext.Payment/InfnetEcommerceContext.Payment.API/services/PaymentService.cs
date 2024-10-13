@@ -32,7 +32,7 @@ namespace InfnetEcommerceContext.Notification.API.services
             Bus.Publish(new PaymentCreated()
             {
                 UserId = newPaymentDTO.UserId,
-
+                OrderId = newPaymentDTO.OrderId,
             });
             return newlyGeneratedPayment;
         }

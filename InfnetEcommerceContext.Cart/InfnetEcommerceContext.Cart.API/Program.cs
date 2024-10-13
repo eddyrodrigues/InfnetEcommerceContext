@@ -2,7 +2,6 @@ using InfnetEcommerceContext.Cart.API.Repository.DataContext;
 using InfnetEcommerceContext.Cart.API.Repository.Repositories;
 using InfnetEcommerceContext.Cart.API.Services;
 using Microsoft.EntityFrameworkCore;
-using Steeltoe.Discovery.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,8 +12,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDiscoveryClient();
-
 builder.Services.AddDbContext<CartContext>(c =>
 {
     c.UseInMemoryDatabase("carts");
@@ -22,6 +19,7 @@ builder.Services.AddDbContext<CartContext>(c =>
 
 builder.Services.AddScoped<ICartRepository, CartRepository>();
 builder.Services.AddScoped<CartService>();
+builder.Services.AddScoped<CheckoutService>();
 
 var app = builder.Build();
 

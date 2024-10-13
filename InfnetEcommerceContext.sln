@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfnetEcommerceContext.Prod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfnetEcommerceContext.User.API", "InfnetEcommerceContext.User\InfnetEcommerceContext.User.API\InfnetEcommerceContext.User.API.csproj", "{8600BDBD-4E13-41DB-8C96-D8FD4009640D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MessagingContracts", "MessagingContracts\MessagingContracts.csproj", "{9991EFAC-5669-4E59-8E77-2487ACC769DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessagingContracts", "MessagingContracts\MessagingContracts.csproj", "{9991EFAC-5669-4E59-8E77-2487ACC769DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

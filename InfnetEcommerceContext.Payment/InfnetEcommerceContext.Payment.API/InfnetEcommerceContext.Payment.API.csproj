@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <InvariantGlobalization>true</InvariantGlobalization>
+    <UserSecretsId>4703ea42-265e-4827-a9d4-c9d4596ea3ae</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,7 +26,6 @@
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.27" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="6.0.27" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.27" />
-	  <PackageReference Include="Steeltoe.Discovery.Eureka" Version="3.2.6" />
   </ItemGroup>
 
   <ItemGroup>

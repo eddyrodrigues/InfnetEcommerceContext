@@ -1,5 +1,4 @@
-using InfnetEcommerceContext.Notification.API.BackgroundServices;
-using InfnetEcommerceContext.Notification.API.services;
+using InfnetEcommerceContext.Email.API.Services;
 using MassTransit;
 using System.Reflection;
 
@@ -11,7 +10,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddHostedService<NotifyUserEmailListener>();
 builder.Services.AddScoped<SendEmailService>();
 builder.Services.AddMassTransit(x =>
 {
@@ -34,6 +32,7 @@ builder.Services.AddMassTransit(x =>
     });
     
 });
+
 
 var app = builder.Build();
 

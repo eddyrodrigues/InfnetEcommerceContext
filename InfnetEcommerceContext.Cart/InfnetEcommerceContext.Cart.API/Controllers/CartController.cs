@@ -14,11 +14,13 @@ namespace InfnetEcommerceContext.Cart.API.Controllers
     {
         private readonly ICartRepository cartRepository;
         private readonly CartService cartService;
+        private readonly CheckoutService checkoutService;
 
-        public CartController(ICartRepository cartRepository, CartService cartService)
+        public CartController(ICartRepository cartRepository, CartService cartService, CheckoutService checkoutService)
         {
             this.cartRepository = cartRepository;
             this.cartService = cartService;
+            this.checkoutService = checkoutService;
         }
         // GET: api/<CartController>
         [HttpGet]
@@ -84,6 +86,14 @@ namespace InfnetEcommerceContext.Cart.API.Controllers
         public async Task<CartEntityResponse> AddCartProductAsync(Guid id, Guid productId)
         {
             return await cartService.AddCartProduct(id, productId);
+        }
+
+        [HttpPost("confirm-checkout")]
+        public IActionResult ConfirmCheckout(Guid userId)
+        {
+            checkoutService.ConfirmCheckout(userId);
+
+            return Ok();
         }
     }
 }

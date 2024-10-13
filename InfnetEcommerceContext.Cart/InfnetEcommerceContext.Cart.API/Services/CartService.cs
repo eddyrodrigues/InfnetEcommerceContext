@@ -1,8 +1,6 @@
 ﻿using InfnetEcommerceContext.Cart.API.Models.DTOs;
 using InfnetEcommerceContext.Cart.API.Models.Entities;
 using InfnetEcommerceContext.Cart.API.Repository.Repositories;
-using Steeltoe.Common.Discovery;
-using Steeltoe.Discovery;
 using System.Text.Json;
 
 namespace InfnetEcommerceContext.Cart.API.Services
@@ -10,12 +8,10 @@ namespace InfnetEcommerceContext.Cart.API.Services
     public class CartService
     {
         private readonly ICartRepository cartRepository;
-        private readonly DiscoveryHttpClientHandler _handler;
 
-        public CartService(ICartRepository cartRepository, IDiscoveryClient client)
+        public CartService(ICartRepository cartRepository)
         {
             this.cartRepository = cartRepository;
-            _handler = new DiscoveryHttpClientHandler(client);
         }
 
         public async Task<CartEntityResponse> GetById(Guid cartId)
@@ -87,7 +83,7 @@ namespace InfnetEcommerceContext.Cart.API.Services
         }
         private async Task<ProductResponse> GetProductByIdAsync(Guid productId)
         {
-            HttpClient client = new HttpClient(_handler, false);
+            HttpClient client = new HttpClient();
             client.BaseAddress = new Uri("http://product.api/");
             var response = await client.GetAsync($"/products/{productId}");
             if (response.IsSuccessStatusCode)
@@ -103,7 +99,6 @@ namespace InfnetEcommerceContext.Cart.API.Services
             }
             
         }
-
 
     }
 }

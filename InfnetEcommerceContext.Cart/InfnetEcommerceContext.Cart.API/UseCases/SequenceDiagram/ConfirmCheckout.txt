@@ -1,0 +1,13 @@
+﻿@startuml
+actor client as c
+
+c -> CartApi : Confirm Checkout
+CartApi -->> PaymentApi : CreatePayment
+CartApi -> c : Tell user that payment is being processed async
+PaymentApi -->> RabbitMq : PaymentCreated / Pending Mode
+RabbitMq -->> UserApi : Payment Created on The system.\nWaiting Success of the payment.
+UserApi -->> RabbitMq : SendEmailTemplate:\nSend user e-mail\nthat the payment is processing.
+RabbitMq -->> EmailApi : Send User Email Template to process.
+EmailApi -->> c : PaymentIsBeingProcessed yet.
+
+@enduml
