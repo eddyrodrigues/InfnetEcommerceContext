@@ -1,0 +1,51 @@
+version: '3.4'
+
+services:
+  infnetecommercecontext.user.api:
+    image: ${DOCKER_REGISTRY-}infnetecommercecontextuserapi
+    build:
+      context: .
+      dockerfile: InfnetEcommerceContext.User/InfnetEcommerceContext.User.API/Dockerfile
+    ports:
+      - "3001:8080"
+    networks:
+      - infnet_ecommerce
+  infnetecommercecontext.product.api:
+    image: ${DOCKER_REGISTRY-}infnetecommercecontextproductapi
+    build:
+      context: .
+      dockerfile: InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/Dockerfile
+    ports:
+      - "3002:80"
+    networks:
+      - infnet_ecommerce
+  infnetecommercecontext.cart.api:
+    image: ${DOCKER_REGISTRY-}infnetecommercecontextcartapi
+    build:
+      context: .
+      dockerfile: InfnetEcommerceContext.Cart/InfnetEcommerceContext.Cart.API/Dockerfile
+    ports:
+      - "3003:80"
+    networks:
+      - infnet_ecommerce
+  eurekaserver:
+    image: steeltoeoss/eureka-server:latest
+    ports:
+    - "8761:8761"
+    networks:
+      - infnet_ecommerce
+networks:
+  infnet_ecommerce:
+    name: infnet_ecommerce
+    external: true
+  # sql.server.elgant_gould:
+  #   image: ${DOCKER_REGISTRY-}infnetecommercecontextsqlapi
+  #   container_name: elgant_gould
+  #   ports:
+  #     - "1433:1433"
+  #   environment:
+  #     - MSSQL_SA_PASSWORD=*summoner593
+  #     - MSSQL_PID=Express
+  #     - ACCEPT_EULA=Y
+  #     - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    

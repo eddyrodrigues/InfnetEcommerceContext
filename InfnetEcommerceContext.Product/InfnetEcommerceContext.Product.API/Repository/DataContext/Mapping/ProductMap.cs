@@ -10,7 +10,7 @@ namespace InfnetEcommerceContext.Product.API.Repository.DataContext.Mapping
         {
             builder.ToTable("Products");
 
-            builder.Property(c => c.Price).HasColumnType("float");
+            builder.Property(c => c.Price);
         }
     }
 }
