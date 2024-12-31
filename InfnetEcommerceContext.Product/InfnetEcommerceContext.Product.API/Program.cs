@@ -1,23 +1,13 @@
-using InfnetEcommerceContext.Product.API.Repository;
-using InfnetEcommerceContext.Product.API.Repository.DataContext;
-using InfnetEcommerceContext.Product.API.Services;
+using InfnetEcommerceContext.Product.API.Dependencies;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Prometheus;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Discovery.Eureka;
-using System;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-var hostDataBase = Environment.GetEnvironmentVariable("PRODUCTAPI_DB_SERVICE_SERVICE_HOST");
-//hostDataBase = builder.Configuration.GetConnectionString("");
-//UseInMemoryDatabase("products")
-builder.Services.AddDbContext<ProductContext>(c => c.UseSqlServer($"Server=elegant_gould,1433;Database=Products;User Id=sa;Password=*summoner593;"));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -29,9 +19,11 @@ builder.Services.AddSwaggerGen();
 builder.AddCloudFoundryConfiguration();
 builder.AddServiceDiscovery(c => c.UseEureka());
 
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
-builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddServices();
+builder.Services.AddProductsDatabase(builder.Environment.EnvironmentName);
+builder.Services.AddJwtConfiguration(builder.Environment.EnvironmentName);
 
+builder.Services.AddAuthorization();    
 
 var app = builder.Build();
 
@@ -45,7 +37,10 @@ if (app.Environment.IsDevelopment())
 app.UseCors(c => c.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseRouting();
 app.UseHttpMetrics();
+
+app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 app.UseEndpoints(endpoints =>
 {
@@ -60,6 +55,6 @@ app.UseEndpoints(endpoints =>
     // * metrics about requests handled by the web app (configured above)
     // * ASP.NET health check statuses (configured above)
     // * custom business logic metrics published by the SampleService class
-    endpoints.MapMetrics("/hcappfollow");
+    endpoints.MapMetrics("/metrics");
 });
 app.Run();
