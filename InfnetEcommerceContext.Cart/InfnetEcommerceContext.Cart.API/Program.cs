@@ -5,6 +5,10 @@ using Microsoft.EntityFrameworkCore;
 using Steeltoe.Discovery.Client;
 using Steeltoe.Discovery.Eureka;
 using Steeltoe.Extensions.Configuration.CloudFoundry;
+using InfnetEcommerceContext.Shared;
+using System;
+
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,8 +29,13 @@ builder.Services.AddDbContext<CartContext>(c =>
 });
 
 builder.Services.AddScoped<ICartRepository, CartRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<CartService>();
 builder.Services.AddScoped<CheckoutService>();
+
+var tokenSecret = Environment.GetEnvironmentVariable("SECRET_TOKEN_JWT");
+builder.Services.AddJwtTokenConfiguration(tokenSecret);
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 app.UseCors(c => c.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -37,7 +46,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

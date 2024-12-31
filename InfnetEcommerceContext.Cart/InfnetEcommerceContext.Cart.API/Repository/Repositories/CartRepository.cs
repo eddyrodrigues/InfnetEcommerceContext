@@ -1,7 +1,6 @@
 ﻿using InfnetEcommerceContext.Cart.API.Models.Entities;
 using InfnetEcommerceContext.Cart.API.Repository.DataContext;
 using Microsoft.EntityFrameworkCore;
-using SQLitePCL;
 
 namespace InfnetEcommerceContext.Cart.API.Repository.Repositories
 {
@@ -42,7 +41,12 @@ namespace InfnetEcommerceContext.Cart.API.Repository.Repositories
 
         public CartEntity GetById(Guid cartId)
         {
-            return context.Carts.Where(c => c.Id == cartId).Include(c => c.Products).FirstOrDefault();
+            return context.Carts.Where(c => c.Id == cartId).FirstOrDefault();
+        }
+
+        public async Task CommitAsync()
+        {
+            await context.SaveChangesAsync();
         }
     }
 
@@ -54,5 +58,6 @@ namespace InfnetEcommerceContext.Cart.API.Repository.Repositories
         CartEntity GetById(Guid userId);
         CartEntity GetByUserId(Guid userId);
         void Update(CartEntity cart);
+        Task CommitAsync();
     }
 }

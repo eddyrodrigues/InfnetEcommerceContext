@@ -8,13 +8,18 @@ namespace InfnetEcommerceContext.Cart.API.Models.DTOs
         {
             
         }
-        public CartEntityResponse(CartEntity entity)
-        {
-            UserId = entity.UserId;
-            Id = entity.Id;
-        }
         public Guid UserId { get; set; }
         public Guid Id { get; set; }
         public List<ProductResponse> Products { get; set; } = new List<ProductResponse>();
+        public int ProductQty => Products.Count;
+
+        public static CartEntityResponse FromEntity(CartEntity entity)
+        {
+            return new CartEntityResponse()
+            {
+                UserId = entity.UserId,
+                Id = entity.Id,
+            };
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>70a63660-48be-49b1-bfcb-b60476d6e7a0</UserSecretsId>
@@ -26,6 +26,10 @@
 	  <PackageReference Include="Steeltoe.Discovery.Eureka" Version="3.2.6" />
 	  <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 	  
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\InfnetEcommerceContext.Shared\InfnetEcommerceContext.Shared.csproj" />
   </ItemGroup>
 
 </Project>

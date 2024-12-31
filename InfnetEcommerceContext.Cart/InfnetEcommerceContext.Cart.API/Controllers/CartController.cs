@@ -2,6 +2,7 @@
 using InfnetEcommerceContext.Cart.API.Models.Entities;
 using InfnetEcommerceContext.Cart.API.Repository.Repositories;
 using InfnetEcommerceContext.Cart.API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -24,17 +25,31 @@ namespace InfnetEcommerceContext.Cart.API.Controllers
         }
         // GET: api/<CartController>
         [HttpGet]
-        public List<CartEntity> Get()
+        [Authorize]
+        public async Task<ActionResult> Get()
         {
-            return cartRepository.GetAll();
+
+            // get userId from token 
+
+            var userId = HttpContext.User.Claims.Where(c => c.Type == "id").FirstOrDefault()?.Value;
+
+            if (userId == null)
+            {
+                return ValidationProblem("userId");
+            }
+
+            var gUserId = new Guid(userId);
+
+            return Ok(await cartService.GetCreateUserCart(gUserId));
         }
 
         // GET api/<CartController>/5
-        [HttpGet("{id}")]
-        public async Task<CartEntityResponse> GetAsync(Guid id)
-        {
-            return await cartService.GetById(id);
-        }
+        //[HttpGet]
+        //[Authorize]
+        //public async Task<CartEntityResponse> GetAsync(Guid id)
+        //{
+        //    return await cartService.GetById(id);
+        //}
 
         // POST api/<CartController>
         [HttpPost]
@@ -82,10 +97,21 @@ namespace InfnetEcommerceContext.Cart.API.Controllers
             return await cartService.DeleteCartProduct(id, productId);
         }
 
-        [HttpPut("user-id/{id}/product/{productId}")]
-        public async Task<CartEntityResponse> AddCartProductAsync(Guid id, Guid productId)
+        [HttpPut("product/{productId}")]
+        [Authorize]
+        public async Task<ActionResult<CartEntityResponse>> AddCartProductAsync(Guid productId)
         {
-            return await cartService.AddCartProduct(id, productId);
+            // get userId from token 
+
+            var userId = HttpContext.User.Claims.Where(c => c.Type == "id").FirstOrDefault()?.Value;
+
+            if (userId == null)
+            {
+                return ValidationProblem("userId");
+            }
+
+            var gUserId = new Guid(userId);
+            return await cartService.AddCartProduct(gUserId, productId);
         }
 
         [HttpPost("confirm-checkout")]
