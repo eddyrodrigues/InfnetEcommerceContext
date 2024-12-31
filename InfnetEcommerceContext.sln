@@ -31,6 +31,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessagingContracts", "Messa
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A4ECB710-B844-4202-8710-63CF042557A4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "InfnetEcommerceContext.Shared", "InfnetEcommerceContext.Shared", "{16334870-EFAD-4FC0-ADBD-415DCE4A1462}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfnetEcommerceContext.Shared", "InfnetEcommerceContext.Shared\InfnetEcommerceContext.Shared.csproj", "{7FD0CC51-4729-4D15-888E-CB066A348FC5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,10 @@ Global
 		{A4ECB710-B844-4202-8710-63CF042557A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4ECB710-B844-4202-8710-63CF042557A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4ECB710-B844-4202-8710-63CF042557A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FD0CC51-4729-4D15-888E-CB066A348FC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FD0CC51-4729-4D15-888E-CB066A348FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FD0CC51-4729-4D15-888E-CB066A348FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FD0CC51-4729-4D15-888E-CB066A348FC5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +88,7 @@ Global
 		{C7A41223-11CE-4986-BD53-E5C319C50C7F} = {C873ECAC-00B3-4C99-9F90-152CD76FF221}
 		{FA484FD1-0F17-458D-B507-3C023BDBC79B} = {D6328BB1-FB6C-44C2-9C4B-F5D52D6F5A15}
 		{8600BDBD-4E13-41DB-8C96-D8FD4009640D} = {E705FCC3-BFB8-4CEA-B781-2E1B39801D80}
+		{7FD0CC51-4729-4D15-888E-CB066A348FC5} = {16334870-EFAD-4FC0-ADBD-415DCE4A1462}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C188B7A1-3AB9-41EA-9064-E600AED14036}

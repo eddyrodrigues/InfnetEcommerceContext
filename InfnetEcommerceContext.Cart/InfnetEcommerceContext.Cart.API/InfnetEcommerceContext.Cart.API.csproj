@@ -28,8 +28,4 @@
 	  
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\InfnetEcommerceContext.Shared\InfnetEcommerceContext.Shared.csproj" />
-  </ItemGroup>
-
 </Project>
