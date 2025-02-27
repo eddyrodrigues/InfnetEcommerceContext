@@ -24,4 +24,8 @@
 	  <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\InfnetEcommerceContext.Shared\InfnetEcommerceContext.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

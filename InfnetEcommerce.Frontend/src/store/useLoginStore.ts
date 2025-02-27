@@ -9,11 +9,15 @@ interface LoginState {
   isAuthenticated: boolean;
   SetUser: (accessToken: UserDataAndAccessTokenResponse) => void;
   RetrieveUser: () => UserDataAndAccessTokenResponse | null;
+  Logout: () => void;
 }
 
 const useLoginStore = create<LoginState>()((set) => ({
   user: null,
   isAuthenticated: false,
+  Logout: () => {
+    localStorage.removeItem("user");
+  },
   SetUser: (UserDataAndAccessTokenResponse) => {
     console.log("set user", UserDataAndAccessTokenResponse);
     localStorage.setItem(

@@ -28,12 +28,6 @@ const router = createBrowserRouter([
   },
 ]);
 function App() {
-  const cartStore = useCartStore();
-  useEffect(() => {
-    CartService.getUserCart()
-      .then((cart) => cartStore.setCartProducts(cart?.products))
-      .catch((e) => alert("Error on Loading Products: " + e));
-  }, []);
   return <RouterProvider router={router} />;
 }
 

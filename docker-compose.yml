@@ -3,32 +3,67 @@ version: '3.4'
 services:
   infnetecommercecontext.user.api:
     image: ${DOCKER_REGISTRY-}infnetecommercecontextuserapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - SECRET_TOKEN_JWT=<token secret>
+      - DB_CONN_STRING=Server=server,1433;Database=Users;User Id=sa;Password=<pass>;Encrypt=False
+      - azureapiskeyvault=<vault> #when production environment
     build:
       context: .
       dockerfile: InfnetEcommerceContext.User/InfnetEcommerceContext.User.API/Dockerfile
     ports:
-      - "3001:8080"
+      - "3001:80"
     networks:
       - infnet_ecommerce
+    depends_on:
+      - eurekaserver
+      - rabbitmq
   infnetecommercecontext.product.api:
+    container_name: product-api
     image: ${DOCKER_REGISTRY-}infnetecommercecontextproductapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - SECRET_TOKEN_JWT=<token secret>
+      - DB_CONN_STRING=Server=server,1433;Database=Products;User Id=sa;Password=<pass>;Encrypt=False
     build:
       context: .
       dockerfile: InfnetEcommerceContext.Product/InfnetEcommerceContext.Product.API/Dockerfile
     ports:
       - "3002:80"
+      - "3102:433"
     networks:
       - infnet_ecommerce
+    depends_on:
+      - eurekaserver
   infnetecommercecontext.cart.api:
     image: ${DOCKER_REGISTRY-}infnetecommercecontextcartapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - SECRET_TOKEN_JWT=<token secret>
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
     build:
       context: .
       dockerfile: InfnetEcommerceContext.Cart/InfnetEcommerceContext.Cart.API/Dockerfile
     ports:
       - "3003:80"
+      - "3103:433"
+    networks:
+      - infnet_ecommerce
+    depends_on:
+      - infnetecommercecontext.product.api
+      - eurekaserver
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.12-management
     networks:
       - infnet_ecommerce
   eurekaserver:
+    container_name: eurekaserver
     image: steeltoeoss/eureka-server:latest
     ports:
     - "8761:8761"
@@ -36,7 +71,6 @@ services:
       - infnet_ecommerce
 networks:
   infnet_ecommerce:
-    name: infnet_ecommerce
     external: true
   # sql.server.elgant_gould:
   #   image: ${DOCKER_REGISTRY-}infnetecommercecontextsqlapi

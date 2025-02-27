@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\InfnetEcommerceContext.Shared\InfnetEcommerceContext.Shared.csproj" />
+    <ProjectReference Include="..\..\InfnetEcommerceContext.Shared\InfnetEcommerceContext.Shared.csproj" />
     <ProjectReference Include="..\..\MessagingContracts\MessagingContracts.csproj" />
   </ItemGroup>
 
