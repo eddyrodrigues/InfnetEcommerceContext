@@ -72,14 +72,4 @@ services:
 networks:
   infnet_ecommerce:
     external: true
-  # sql.server.elgant_gould:
-  #   image: ${DOCKER_REGISTRY-}infnetecommercecontextsqlapi
-  #   container_name: elgant_gould
-  #   ports:
-  #     - "1433:1433"
-  #   environment:
-  #     - MSSQL_SA_PASSWORD=*summoner593
-  #     - MSSQL_PID=Express
-  #     - ACCEPT_EULA=Y
-  #     - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
     
